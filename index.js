@@ -141,18 +141,22 @@ const myKeys = (object) =>{
 
 const mySortBy = (collection, callback)=>{
     let newArr = []
-    
-    for(let item of collection){
-        
+    let largest = callback(collection.slice(-1))
+
+    for(const item of collection){
         newArr.push(item)
     }
-    if(typeof newArr[0] === 'string'){
-        newArr.sort()
+    let n = newArr.length
+    let key, j
+    for(let i=1;i<n;i++){
+         key = newArr[i]
+        j = i -1
+        while(j>=0 && callback(newArr[j]) > callback(key)){
+            newArr[j+1] = newArr[j]
+            j = j-1          
+        }
+        newArr[j+1] = key
     }
-    else{
-        newArr.sort(function(a,b){return callback(a)-callback(b)})
-    }
-    
     return newArr
 }
 
